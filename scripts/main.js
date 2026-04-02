@@ -7,13 +7,21 @@ function player(name, playerSign) {
   function playTurn(buttonElement) {
     if (buttonElement.textContent !== "") {
       buttonElement.textContent = playerSign;
+      return true;
     }
+    return false;
   }
 
   function addWin(){
     wins++;
   }
 
+  function getWins(){
+    return wins;
+  }
+
   return {playTurn, addWin}
 }
+
+
 
