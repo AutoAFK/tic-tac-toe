@@ -10,6 +10,10 @@ function player(name, playerSign) {
     }
   }
 
-  return {playTurn}
+  function addWin(){
+    wins++;
+  }
+
+  return {playTurn, addWin}
 }
 
