@@ -10,19 +10,34 @@
   <body>
     <div id="app">
       <h1>Tic Tac Toe</h1>
-      <p id="current-turn"></p>
-      <div class="board">
-        <button id="b1"></button>
-        <button id="b2"></button>
-        <button id="b3"></button>
-        <button id="b4"></button>
-        <button id="b5"></button>
-        <button id="b6"></button>
-        <button id="b7"></button>
-        <button id="b8"></button>
-        <button id="b9"></button>
+      <div class="player-input">
+        <form class="playerForm">
+          <div>
+            <label for="player1-name">Player 1 Name:</label>
+            <input type="text" name="player1-name" id="player1-name" />
+          </div>
+          <div>
+            <label for="player2-name">Player 2 Name:</label>
+            <input type="text" name="player2-name" id="player2-name" />
+          </div>
+          <button type="submit">Start Game</button>
+        </form>
       </div>
-      <button id="reset">Reset</button>
+      <div class="game">
+        <p id="current-turn"></p>
+        <div class="board">
+          <button id="b1"></button>
+          <button id="b2"></button>
+          <button id="b3"></button>
+          <button id="b4"></button>
+          <button id="b5"></button>
+          <button id="b6"></button>
+          <button id="b7"></button>
+          <button id="b8"></button>
+          <button id="b9"></button>
+        </div>
+        <button id="reset">Reset</button>
+      </div>
     </div>
   </body>
 </html>
