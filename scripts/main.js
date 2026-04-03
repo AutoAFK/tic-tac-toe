@@ -1,27 +1,24 @@
-function player(name, playerSign) {
-  if (typeof name !== "string" || typeof playerSign !== "string") {
-    throw Error("Player name and sign need to be provided as strings.");
-  }
-  let wins = 0;
+const board = document.querySelector(".board");
 
-  function playTurn(buttonElement) {
-    if (buttonElement.textContent !== "") {
-      buttonElement.textContent = playerSign;
-      return true;
-    }
-    return false;
-  }
-
-  function addWin(){
-    wins++;
-  }
-
-  function getWins(){
-    return wins;
-  }
-
-  return {playTurn, addWin}
+function Player(name, marker) {
+  return { name, marker };
 }
+
+const GameBoard = (() => {
+  let board = Array(9).fill(null);
+  const getBoard = () => board;
+  const placeMarker = (index, marker) => {
+    if (board[index] !== null) return false;
+    board[index] = marker;
+    return true;
+  };
+  const reset = () => {
+    board.fill(null);
+  };
+  return { getBoard, placeMarker, reset };
+})();
+
+
 
 
 
