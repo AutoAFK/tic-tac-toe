@@ -1,5 +1,5 @@
 const board = document.querySelector(".board");
-const buttons = [...document.querySelectorAll("button")];
+const buttons = [...document.querySelectorAll(".board > button")];
 
 function Player(name, marker) {
   return { name, marker };
@@ -31,13 +31,14 @@ const Game = (() => {
 
   const playTurn = (button, index) => {
     const board = GameBoard.getBoard();
-    if (!board[index] === null) return;
+    console.log(board)
+    if (board[index] !== null) return;
     button.textContent = currentPlayer.marker;
     board[index] = currentPlayer.marker;
 
     if (turnsAmount >= 4) {
-      if(checkForWinner()){
-        console.log(`${currentPlayer.name} won!`)
+      if (checkForWinner()) {
+        console.log(`${currentPlayer.name} won!`);
       }
     }
     currentPlayer = currentPlayer === player1 ? player2 : player1;
@@ -51,37 +52,46 @@ const Game = (() => {
     // Check horizontal
     for (let i = 0; i < 3; i++) {
       if (
+        board[0 + i * 3] !== null &&
         board[0 + i * 3] === board[1 + i * 3] &&
         board[1 + i * 3] === board[2 + i * 3]
       ) {
+        console.log("won horizontal");
+
         return true;
       }
     }
 
     // Check vertical
     for (let i = 0; i < 3; i++) {
-      if (board[0 + i] === board[3 + i] && board[3 + i] === board[6 + i]) {
+      if (
+        board[0 + i] !== null &&
+        board[0 + i] === board[3 + i] &&
+        board[3 + i] === board[6 + i]
+      ) {
+        console.log("won vertical");
         return true;
       }
     }
 
     // Check diagnoal
     if (
-      (board[0] === board[4] && board[4] === board[8]) ||
-      (board[2] === board[4] && board[4] === board[6])
+      (board[0] !== null && board[0] === board[4] && board[4] === board[8]) ||
+      (board[2] !== null && board[2] === board[4] && board[4] === board[6])
     ) {
+      console.log("won diagnoal");
       return true;
     }
 
     return false;
   };
-  return {playTurn}
+  return { playTurn };
 })();
 
 board.addEventListener("click", (event) => {
-  const isButton = event.target.tagName === 'BUTTON';
+  const isButton = event.target.tagName === "BUTTON";
 
-  if(isButton){
+  if (isButton) {
     Game.playTurn(event.target, buttons.indexOf(event.target));
   }
 });
