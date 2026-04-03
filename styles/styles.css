@@ -35,12 +35,16 @@ body {
   gap: 1.2rem;
 }
 
+.game {
+  display: grid;
+  gap: 10px;
+}
+
 .board {
   display: grid;
   place-items: center;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  gap: 0;
 }
 
 .board > button {
@@ -75,12 +79,8 @@ body {
   padding: 10px 30px;
   background-color: hsl(210, 60%, 50%);
   color: #fff;
-  border:none;
+  border: none;
   box-shadow: #000 2px 2px 3px;
-}
-
-.game {
-  display: none;
 }
 
 .playerForm {
@@ -93,7 +93,7 @@ body {
 }
 
 input[type="text"] {
-  border:1px solid hsl(0, 0%, 60%);
+  border: 1px solid hsl(0, 0%, 60%);
   border-radius: 5px;
   font-size: 1rem;
   padding: 5px 5px;
@@ -114,4 +114,8 @@ input[type="text"]:focus {
   border-radius: 5px;
   color: #fff;
   background-color: hsl(211, 100%, 50%);
+}
+
+.hide {
+  display: none;
 }

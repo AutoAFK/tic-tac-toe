@@ -2,6 +2,7 @@ const board = document.querySelector(".board");
 const buttons = [...document.querySelectorAll(".board > button")];
 const resetButton = document.querySelector("#reset");
 const currentTurnDOM = document.querySelector("#current-turn");
+const playersForm = document.querySelector(".playerForm");
 
 function Player(name, marker) {
   return { name, marker };
@@ -22,12 +23,18 @@ const GameBoard = (() => {
 })();
 
 const Game = (() => {
-  const player1 = Player("human1", "x");
-  const player2 = Player("human2", "o");
+  let player1 = undefined;
+  let player2 = undefined;
+  let currentPlayer = undefined;
 
-  let currentPlayer = player1;
   let turnsAmount = 0;
   let canPlay = true;
+
+  const init = (player1Name, player2Name) => {
+    player1 = Player(player1Name, "x");
+    player2 = Player(player2Name, "o");
+    currentPlayer = player1;
+  };
 
   const playTurn = (button, index) => {
     if (!canPlay) return;
@@ -104,12 +111,8 @@ const Game = (() => {
     displayCurrentTurn();
   };
 
-  return { playTurn, displayCurrentTurn, reset };
+  return { playTurn, displayCurrentTurn, reset, init };
 })();
-
-document.addEventListener("DOMContentLoaded", () => {
-  Game.displayCurrentTurn();
-});
 
 board.addEventListener("click", (event) => {
   const isButton = event.target.tagName === "BUTTON";
@@ -121,4 +124,18 @@ board.addEventListener("click", (event) => {
 
 resetButton.addEventListener("click", () => {
   Game.reset();
+});
+
+playersForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  
+  const player1 = document.querySelector("#player1-name").value;
+  const player2 = document.querySelector("#player2-name").value;
+
+  Game.init(player1, player2);
+  
+  document.querySelector(".player-input").classList.add("hide");
+  document.querySelector(".game").classList.remove("hide");
+
+  Game.displayCurrentTurn();
 });
