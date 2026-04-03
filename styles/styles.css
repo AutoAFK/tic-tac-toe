@@ -10,6 +10,7 @@
   list-style-type: none;
   text-decoration: none;
   border-collapse: collapse;
+  font-weight: 700;
 }
 
 html {
@@ -64,4 +65,12 @@ body {
 #b7,
 #b8 {
   border-right: var(--buttons-border);
+}
+
+#reset {
+  padding: 10px 30px;
+  background-color: hsl(210, 60%, 50%);
+  color: #fff;
+  border:none;
+  box-shadow: #000 2px 2px 3px;
 }

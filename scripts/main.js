@@ -1,5 +1,7 @@
 const board = document.querySelector(".board");
 const buttons = [...document.querySelectorAll(".board > button")];
+const resetButton = document.querySelector("#reset");
+const currentTurnDOM = document.querySelector("#current-turn");
 
 function Player(name, marker) {
   return { name, marker };
@@ -31,7 +33,7 @@ const Game = (() => {
 
   const playTurn = (button, index) => {
     const board = GameBoard.getBoard();
-    console.log(board)
+
     if (board[index] !== null) return;
     button.textContent = currentPlayer.marker;
     board[index] = currentPlayer.marker;
@@ -85,8 +87,17 @@ const Game = (() => {
 
     return false;
   };
-  return { playTurn };
+
+  const displayCurrentTurn = () => {
+    currentTurnDOM.textContent = currentPlayer.marker;
+  }
+
+  return { playTurn,displayCurrentTurn };
 })();
+
+document.addEventListener('DOMContentLoaded', () => {
+  Game.displayCurrentTurn();
+})
 
 board.addEventListener("click", (event) => {
   const isButton = event.target.tagName === "BUTTON";
@@ -95,3 +106,7 @@ board.addEventListener("click", (event) => {
     Game.playTurn(event.target, buttons.indexOf(event.target));
   }
 });
+
+resetButton.addEventListener('click', () => {
+  GameBoard.reset();
+})
