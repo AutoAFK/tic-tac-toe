@@ -17,9 +17,6 @@ const GameBoard = (() => {
   };
   const reset = () => {
     board.fill(null);
-    buttons.forEach((btn) => {
-      btn.textContent = "";
-    });
   };
   return { getBoard, placeMarker, reset };
 })();
@@ -30,8 +27,10 @@ const Game = (() => {
 
   let currentPlayer = player1;
   let turnsAmount = 0;
+  let canPlay = true;
 
   const playTurn = (button, index) => {
+    if (!canPlay) return;
     const board = GameBoard.getBoard();
 
     if (board[index] !== null) return;
@@ -40,17 +39,24 @@ const Game = (() => {
 
     if (turnsAmount >= 4) {
       if (checkForWinner()) {
-        console.log(`${currentPlayer.name} won!`);
+        currentTurnDOM.textContent = `${currentPlayer.name} (${currentPlayer.marker}) WON!`;
+        canPlay = false;
+        return;
+      }
+      if (turnsAmount === 8) {
+        currentTurnDOM.textContent = `Its a DRAW!`;
+        canPlay = false;
+        return;
       }
     }
     currentPlayer = currentPlayer === player1 ? player2 : player1;
+    displayCurrentTurn();
 
     turnsAmount++;
   };
 
   const checkForWinner = () => {
     const board = GameBoard.getBoard();
-
     // Check horizontal
     for (let i = 0; i < 3; i++) {
       if (
@@ -58,8 +64,6 @@ const Game = (() => {
         board[0 + i * 3] === board[1 + i * 3] &&
         board[1 + i * 3] === board[2 + i * 3]
       ) {
-        console.log("won horizontal");
-
         return true;
       }
     }
@@ -71,7 +75,6 @@ const Game = (() => {
         board[0 + i] === board[3 + i] &&
         board[3 + i] === board[6 + i]
       ) {
-        console.log("won vertical");
         return true;
       }
     }
@@ -81,7 +84,6 @@ const Game = (() => {
       (board[0] !== null && board[0] === board[4] && board[4] === board[8]) ||
       (board[2] !== null && board[2] === board[4] && board[4] === board[6])
     ) {
-      console.log("won diagnoal");
       return true;
     }
 
@@ -89,15 +91,25 @@ const Game = (() => {
   };
 
   const displayCurrentTurn = () => {
-    currentTurnDOM.textContent = currentPlayer.marker;
-  }
+    currentTurnDOM.textContent = `Current player: ${currentPlayer.marker}`;
+  };
 
-  return { playTurn,displayCurrentTurn };
+  const reset = () => {
+    buttons.forEach((btn) => {
+      btn.textContent = "";
+    });
+    GameBoard.reset();
+    canPlay = true;
+    turnsAmount = 0;
+    displayCurrentTurn();
+  };
+
+  return { playTurn, displayCurrentTurn, reset };
 })();
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   Game.displayCurrentTurn();
-})
+});
 
 board.addEventListener("click", (event) => {
   const isButton = event.target.tagName === "BUTTON";
@@ -107,6 +119,6 @@ board.addEventListener("click", (event) => {
   }
 });
 
-resetButton.addEventListener('click', () => {
-  GameBoard.reset();
-})
+resetButton.addEventListener("click", () => {
+  Game.reset();
+});
